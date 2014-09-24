@@ -1,0 +1,2 @@
+ODIndex	originLat	originLng	destinationLat	destinationLng	ArcGISMile	ArcGISMin
+70000	35.042741	-83.813505	36.442282	-76.339761	525.524444392	509.828104636

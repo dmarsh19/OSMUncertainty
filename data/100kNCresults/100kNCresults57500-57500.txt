@@ -1,0 +1,2 @@
+ODIndex	originLat	originLng	destinationLat	destinationLng	GoogleMile	GoogleMin	ArcGISMile	ArcGISMin	OSMMile	OSMMin
+57500	35.553468	-82.812069	35.357291	-81.652223	85.0 mi	1 hour 22 mins	85.7068224483	84.0099656766	85.907	96.1666666667
