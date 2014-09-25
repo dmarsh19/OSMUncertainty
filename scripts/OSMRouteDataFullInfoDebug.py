@@ -32,10 +32,10 @@ mapquestXMLRoute = OSMRouteModule.mapquestXML(originX, originY, destX, destY, ma
 trunk = MD.parseString(mapquestXMLRoute)
 prettyTrunk = trunk.toprettyxml()
 print prettyTrunk
-##### (2)
-##### MapQuest way XML info pretty printing
-####root = ET.fromstring(mapquestXMLRoute)
-####legCoord = findRouteInfo(root)
+# (2)
+# MapQuest way XML info pretty printing
+root = ET.fromstring(mapquestXMLRoute)
+legCoord = OSMRouteModule.findRouteInfo(root)
 ####for leg in legCoord:
 ####    wayId = latLngToId(leg[0], leg[1])
 ####    base = MD.parseString(wayId)

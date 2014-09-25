@@ -18,7 +18,7 @@ def mapquestXML(originX, originY, destX, destY, mapquestKey):
 
 # Working ####################################################################################################################################
 
-mapquestDataKeys = ['latlng',]
+mapquestDataKeys = ['latlng', 'distance', 'direction', 'street']
 
 for mapquestDataKey in mapquestDataKeys:
 
@@ -35,28 +35,10 @@ def findRouteInfo(root):
             latLng = (lat, lng)
             legCoord.append(latLng)
         return legCoord
-
-    # Find the last changeset and return its timestamp
-    elif mapquestDataKey == 'timestamp':
-        return stalk[(len(stalk)-1)].attrib[OSMdataKey]
     
-    # Appends all users to a list, counts the users through unique users function
+    elif mapquestDataKey == 'distance':
+        for latlng in root.findall('./route/legs/leg/maneuvers/maneuver/startPoint'):
     elif OSMdataKey == 'user':
-        stalkCount = 0
-        userList = []
-        while stalkCount < len(stalk):
-            userList.append(stalk[stalkCount].attrib[OSMdataKey])
-            stalkCount += 1
-        findUniqueUsers = uniqueUsers(userList)
-        return findUniqueUsers
-    # If a new data key is added without specifying customized commands, data will be stored anyway
-    else:
-        stalkCount = 0
-        dataList = []
-        while stalkCount < len(stalk):
-            dataList.append(stalk[stalkCount].attrib[OSMdataKey])
-            stalkCount += 1
-        return dataList
     
 # End Working ############################################################################################################################
 
