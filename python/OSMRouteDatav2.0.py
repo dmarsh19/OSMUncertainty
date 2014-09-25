@@ -1,16 +1,16 @@
-# Title: OSMRouteDataWorking.py
+# Title: OSMRouteDatav2.0.py
 # Description: Use lat, long to identify road segments on the OSM network and retrieve their update history (MapQuest routing algorithm)
 # Inputs: 
 # Outputs: 
 # Author(s): Derek Marsh
-# Edit Date: September 4, 2014
+# Edit Date: September 25, 2014
 # Version: 2.0
 # Compatibility/Requirements: Python 2.7
 # Reference: 
 # ##########################################################################################################################################
 import xml.etree.ElementTree as ET, datetime
 # Function Module - Hopefully in the same directory
-import OSMRouteModule
+import OSMRouteModulev2.0
 
 ##beginTime=datetime.datetime.now()
 ##print("begin time: {0}").format(beginTime)
@@ -32,7 +32,7 @@ def main():
 # Assign route API results to XML tree 'root'
     root = ET.fromstring(mapquestXMLRoute)
 # Search MapQuest route for each road leg coordinates, store as tuple
-    legCoord = OSMRouteModule.findLatLng(root)
+    legCoord = OSMRouteModule.findRouteInfo(root)
 # Convert maneuver coordinates to IDs
     for leg in legCoord:
         wayId = OSMRouteModule.latLngToId(leg[0], leg[1])

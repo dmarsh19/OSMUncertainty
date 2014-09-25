@@ -35,7 +35,7 @@ print prettyTrunk
 ##### (2)
 ##### MapQuest way XML info pretty printing
 ####root = ET.fromstring(mapquestXMLRoute)
-####legCoord = findLatLng(root)
+####legCoord = findRouteInfo(root)
 ####for leg in legCoord:
 ####    wayId = latLngToId(leg[0], leg[1])
 ####    base = MD.parseString(wayId)

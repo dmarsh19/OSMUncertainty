@@ -1,10 +1,10 @@
-# Title: OSMRouteModule.py
-# Description: Module for OSMRouteData.py
+# Title: OSMRouteModulev2.0.py
+# Description: Module for OSMRouteDatav2.0.py
 # Inputs: 
 # Outputs: 
 # Author(s): Derek Marsh
-# Edit Date: September 4, 2014
-# Version: 1.0
+# Edit Date: September 25, 2014
+# Version: 2.0
 # Compatibility/Requirements: Python 2.7
 # Reference: 
 # ##########################################################################################################################################
@@ -16,18 +16,49 @@ def mapquestXML(originX, originY, destX, destY, mapquestKey):
     mapquestXMLRequest = urlopen(mapquestParts).read()
     return mapquestXMLRequest
 
-# Parse route XML for coordinates of leg roads
+# Working ####################################################################################################################################
+
+mapquestDataKeys = ['latlng',]
+
+for mapquestDataKey in mapquestDataKeys:
+
+# Parse route XML for information concerning each leg road
 def findRouteInfo(root):
-    legCoord = []
-    for latlng in root.findall('./route/legs/leg/maneuvers/maneuver/startPoint'):
-        for child in latlng:
-            if child.tag == 'lng':
-                lng = child.text
-            elif child.tag == 'lat':
-                lat = child.text
-        latLng = (lat, lng)
-        legCoord.append(latLng)
-    return legCoord
+    if mapquestDataKey == 'latlng':
+        legCoord = []
+        for latlng in root.findall('./route/legs/leg/maneuvers/maneuver/startPoint'):
+            for child in latlng:
+                if child.tag == 'lng':
+                    lng = child.text
+                elif child.tag == 'lat':
+                    lat = child.text
+            latLng = (lat, lng)
+            legCoord.append(latLng)
+        return legCoord
+
+    # Find the last changeset and return its timestamp
+    elif mapquestDataKey == 'timestamp':
+        return stalk[(len(stalk)-1)].attrib[OSMdataKey]
+    
+    # Appends all users to a list, counts the users through unique users function
+    elif OSMdataKey == 'user':
+        stalkCount = 0
+        userList = []
+        while stalkCount < len(stalk):
+            userList.append(stalk[stalkCount].attrib[OSMdataKey])
+            stalkCount += 1
+        findUniqueUsers = uniqueUsers(userList)
+        return findUniqueUsers
+    # If a new data key is added without specifying customized commands, data will be stored anyway
+    else:
+        stalkCount = 0
+        dataList = []
+        while stalkCount < len(stalk):
+            dataList.append(stalk[stalkCount].attrib[OSMdataKey])
+            stalkCount += 1
+        return dataList
+    
+# End Working ############################################################################################################################
 
 # Waypoint coordinates converted into OSM way IDs
 def latLngToId(lat, lng):

@@ -32,7 +32,7 @@ def main():
 # Assign route API results to XML tree 'root'
     root = ET.fromstring(mapquestXMLRoute)
 # Search MapQuest route for each road leg coordinates, store as tuple
-    legCoord = OSMRouteModule.findLatLng(root)
+    legCoord = OSMRouteModule.findRouteInfo(root)
 # Convert maneuver coordinates to IDs
     for leg in legCoord:
         wayId = OSMRouteModule.latLngToId(leg[0], leg[1])
