@@ -1,34 +1,45 @@
-# Title: OSMRouteDatav2.0.py
-# Description: Use lat, long to identify road segments on the OSM network and retrieve their update history (MapQuest routing algorithm)
-# Inputs: 
-# Outputs: 
-# Author(s): Derek Marsh
-# Edit Date: September 25, 2014
-# Version: 2.0
-# Compatibility/Requirements: Python 2.7
-# Reference: 
-# ##########################################################################################################################################
-import xml.etree.ElementTree as ET, datetime
-# Function Module - Hopefully in the same directory
-import OSMRouteModulev2.0
+#!/usr/bin/env python
+
+"""
+Usage: ./OSMRouteDatav2.0
+
+Using origin and destination points in latitude and longitude format, a
+route is calculated using the MapQuest Open service. Each road segment
+used for the route is identified based on coordinates and routing data,
+including the coordinates, distance, direction, and street name, is
+stored. The coordinates are used to identify the corresponding ID in the
+OpenStreetMap database. The OSM ID is then used to retrieve update data,
+including number of updates, number of contributors, and the data of
+most recent update.
+"""
+ 
+__author__ = "Derek Marsh"
+__email__ = "dmarsh19@uncc.edu"
+
+import datetime
+import xml.etree.ElementTree as ET
+
+import osmroutes2
+
 
 ##beginTime=datetime.datetime.now()
 ##print("begin time: {0}").format(beginTime)
 
-mapquestKey = "Fmjtd%7Cluur210r2h%2Cr5%3Do5-90yxq0"
+mapquestKey = 'Fmjtd%7Cluur210r2h%2Cr5%3Do5-90yxq0'
 
 OSMdataKeyList = ['version', 'timestamp', 'user']
+mapquestDataKeys = ['latlng', 'distance', 'direction', 'street']
 
 # Test values
-originX = "35.2565196067"
-originY = "-80.8063941666"
-destX = "35.3081159759"
-destY = "-80.8701984774"
+originX = '35.2565196067'
+originY = '-80.8063941666'
+destX = '35.3081159759'
+destY = '-80.8701984774'
 
 ###############################################################################################################################
 def main():
 # Request MapQuest route XML based on lat, lng
-    mapquestXMLRoute = OSMRouteModule.mapquestXML(originX, originY, destX, destY, mapquestKey)
+    mapquestXMLRoute = OSMRouteModule.mapquest_xml(originX, originY, destX, destY, mapquestKey)
 # Assign route API results to XML tree 'root'
     root = ET.fromstring(mapquestXMLRoute)
 # Search MapQuest route for each road leg coordinates, store as tuple
