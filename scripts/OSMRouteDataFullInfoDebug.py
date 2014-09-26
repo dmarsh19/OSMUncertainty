@@ -19,7 +19,7 @@ mapquestKey = "Fmjtd%7Cluur210r2h%2Cr5%3Do5-90yxq0"
 dataKeyList = ['version', 'timestamp', 'user']
 
 # Test values
-originX = "35.2585196067"
+originX = "35.2565196067"
 originY = "-80.8063941666"
 destX = "35.3081159759"
 destY = "-80.8701984774"
@@ -36,11 +36,11 @@ print prettyTrunk
 # MapQuest way XML info pretty printing
 root = ET.fromstring(mapquestXMLRoute)
 legCoord = OSMRouteModule.findRouteInfo(root)
-####for leg in legCoord:
-####    wayId = latLngToId(leg[0], leg[1])
-####    base = MD.parseString(wayId)
-####    prettyBase = base.toprettyxml()
-####    print prettyBase
+for leg in legCoord:
+    wayId = OSMRouteModule.latLngToId(leg[0], leg[1])
+    base = MD.parseString(wayId)
+    prettyBase = base.toprettyxml()
+    print prettyBase
 ##### (3)
 ##### Mapquest way history XML info
 ####    top = ET.fromstring(wayId)
