@@ -1,5 +1,5 @@
 """
-This module contains functions for OSMRouteDatav2.0.py,
+This module contains functions for osmroute_main.py,
 including API calls and some logic processing
 """
 
@@ -74,30 +74,29 @@ def osm_way_data(wayID):
 
 def get_data(stalk):
     """Read OSM way history XML data and store the specified value."""
-    OSMdataKeyList = ['version', 'timestamp', 'user']
-    for OSMdataKey in OSMdataKeyList:
+    for wayId in stalk.findall('./way'):
+        for key, value in wayId.attrib.iteritems():
 
-        # Read the last 'child (or changeset)' in XML and return
-        # the version value.
-        if OSMdataKey == 'version':
-            # len()-1, because python numbering starts with 0
-            versionCount = stalk[(len(stalk)-1)].attrib[OSMdataKey]
+            # Read the last 'child (or changeset)' in XML and return
+            # the version value.
+            if key == 'version':
+                # len()-1, because python numbering starts with 0
+                versionCount = stalk[(len(stalk)-1)].attrib[key]
 
-        # Read the last changeset and return the timestamp.
-        elif OSMdataKey == 'timestamp':
-            timestamp = stalk[(len(stalk)-1)].attrib[OSMdataKey]
-        
-        # Appends all users to a list and count the users through the
-        # unique_users function.
-        elif OSMdataKey == 'user':
-            stalkCount = 0
-            userList = []
-            while stalkCount < len(stalk):
-                userList.append(stalk[stalkCount].attrib[OSMdataKey])
-                stalkCount += 1
-            findUniqueUsers = unique_users(userList)
-            uniqueUserCount = findUniqueUsers
-    getDataList = [versionCount, timestamp, uniqueUserCount]
+            elif key == 'timestamp':
+                timestamp = stalk[(len(stalk)-1)].attrib[key]
+            
+            # Appends all users to a list and counts using the
+            # unique_users function.
+            elif key == 'user':
+                stalkCount = 0
+                userList = []
+                while stalkCount < len(stalk):
+                    userList.append(stalk[stalkCount].attrib[key])
+                    stalkCount += 1
+                findUniqueUsers = unique_users(userList)
+                uniqueUserCount = findUniqueUsers
+        getDataList = [versionCount, timestamp, uniqueUserCount]
     return getDataList
 
 def unique_users(userList):

@@ -31,7 +31,7 @@ destY = "-80.8701984774"
 mapquestXMLRoute = OSMRouteModule.mapquestXML(originX, originY, destX, destY, mapquestKey)
 trunk = MD.parseString(mapquestXMLRoute)
 prettyTrunk = trunk.toprettyxml()
-print prettyTrunk
+##print prettyTrunk
 # (2)
 # MapQuest way XML info pretty printing
 root = ET.fromstring(mapquestXMLRoute)
@@ -40,15 +40,18 @@ for leg in legCoord:
     wayId = OSMRouteModule.latLngToId(leg[0], leg[1])
     base = MD.parseString(wayId)
     prettyBase = base.toprettyxml()
-    print prettyBase
-##### (3)
-##### Mapquest way history XML info
-####    top = ET.fromstring(wayId)
-####    osmRouteIds = findOsmId(top)
-####    for osmId in osmRouteIds:
-####        OSMWayResults = OSMWayData(osmId)
-####        print OSMWayResults
-####        print osmId
-##### (4)
-##### Parse way history for select info
-####        stalk = ET.fromstring(OSMWayResults)
+##    print prettyBase
+# (3)
+# Mapquest way history XML info
+    top = ET.fromstring(wayId)
+    osmRouteIds = OSMRouteModule.findOsmId(top)
+    for osmId in osmRouteIds:
+        OSMWayResults = OSMRouteModule.OSMWayData(osmId)
+##        print OSMWayResults
+##        print osmId
+# (4)
+# Parse way history for select info
+        stalk = ET.fromstring(OSMWayResults)
+        for wayId in stalk.findall('./way'):
+            for key, value in wayId.attrib.iteritems():
+                print key, value
