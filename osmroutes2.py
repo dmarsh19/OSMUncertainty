@@ -6,12 +6,24 @@ including API calls and some logic processing
 from urllib2 import urlopen
 
 
-def mapquest_xml(originX, originY, destX, destY, mapquestKey):
+def read_coord_file(input_file, begin_index, end_index):
+    """Opens the input_file and saves indicated data to a list."""
+    coordList = []
+    coordFile = open(input_file, 'r')
+    coordData = coordFile.readlines()
+    coordFile.close()
+    for coord in coordData[begin_index:end_index+1]:
+        coordData2 = coord.strip('\n').split('\t')
+        coordList.append(coordData2)
+    return coordList
+
+
+def mapquest_xml(originLat, originLng, destLat, destLng, mapquestKey):
     """Calculate a network route from two points."""
     mapquestParts = ((r"http://open.mapquestapi.com/directions/v2/route"
                       "?key=%s&outFormat=xml&unit=m&from=%s,%s&to=%s,"
-                      "%s&maxLinkId=15") % (mapquestKey, originX,
-                                            originY, destX, destY))
+                      "%s&maxLinkId=15") % (mapquestKey, originLat,
+                                            originLng, destLat, destLng))
     mapquestXMLRequest = urlopen(mapquestParts).read()
     return mapquestXMLRequest
 
