@@ -28,6 +28,7 @@ def main(input_file, begin_index, end_index):
     routeCoords = osmroutes2.read_coord_file(input_file, begin_index,
                                              end_index)
     for routeCoord in routeCoords:
+        routeIndex = routeCoord[0]
         originLng = routeCoord[1]
         originLat = routeCoord[2]
         destLng = routeCoord[3]
@@ -39,19 +40,19 @@ def main(input_file, begin_index, end_index):
         # Assign route results as XML tree 'root'.
         root = ET.fromstring(mapquestXMLRoute)
         # Read route data and store a list of specified information.
-        routes = osmroutes2.find_route_info(root)
+        routes = osmroutes2.find_route_info(root, routeIndex)
         # Obtain OSM way XML data from road segment coordinates.
         for route in routes:
-            wayId = osmroutes2.lat_lng_to_id(route[1][0], route[1][1])
+            wayId = osmroutes2.lat_lng_to_id(route[2][0], route[2][1])
             top = ET.fromstring(wayId)
             # Read OSM way XML data and store way id in route list.
             osmId = osmroutes2.find_osm_id(top)
             route.append(osmId)
             # Obtain OSM way history XML data and append to route.
-            if route[5] == 'node':
+            if route[6] == 'node':
                 continue
             else:
-                OSMWayResults = osmroutes2.osm_way_data(route[5])
+                OSMWayResults = osmroutes2.osm_way_data(route[6])
                 stalk = ET.fromstring(OSMWayResults)
                 # Read OSM way history XML data and store
                 # the specified value.

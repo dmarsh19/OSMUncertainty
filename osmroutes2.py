@@ -28,13 +28,13 @@ def mapquest_xml(originLat, originLng, destLat, destLng, mapquestKey):
     return mapquestXMLRequest
 
 
-def find_route_info(root):
+def find_route_info(root, routeIndex):
     """Read route data and store a list of specified information."""
     routeInfo = []
     for maneuver in root.findall('./route/legs/leg/maneuvers/maneuver'):
         for sub in maneuver:
             if sub.tag == 'index':
-                index = sub.text
+                turnIndex = sub.text
             if sub.tag == 'startPoint':
                 for child in sub:
                     if child.tag == 'lng':
@@ -51,7 +51,8 @@ def find_route_info(root):
                 for branch in sub:
                     streets.append(branch.text)
                 streetTuple = tuple(streets)
-        singleRouteInfo = [index, latLng, dist, direction, streetTuple]
+        singleRouteInfo = [routeIndex, turnIndex, latLng, dist,
+                           direction, streetTuple]
         routeInfo.append(singleRouteInfo)
     return routeInfo
 
