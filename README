@@ -1,5 +1,5 @@
-<b>OSM Routing</b>
-
+OSM Routing
+=============
 Using origin and destination points in latitude and longitude format, a
 route is calculated using the MapQuest Open service. Each road segment
 used for the route is identified based on coordinates. Additional
